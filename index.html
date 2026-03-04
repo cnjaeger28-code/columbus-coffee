@@ -1,0 +1,1945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Greater Columbus Coffee Guide</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cream: #f5efe6;
+      --warm-white: #fdf8f2;
+      --tan: #e8d5bc;
+      --brown-light: #c4a882;
+      --brown-mid: #8b6347;
+      --brown-dark: #5c3d2e;
+      --espresso: #2c1810;
+      --accent: #b85c38;
+      --text: #3a2519;
+      --text-light: #7a5c4a;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Lato', sans-serif;
+      background: var(--warm-white);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 1000;
+      background: rgba(44, 24, 16, 0.95);
+      backdrop-filter: blur(8px);
+      padding: 0 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+      border-bottom: 1px solid rgba(196,168,130,0.2);
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      color: var(--tan);
+      letter-spacing: 0.03em;
+    }
+    .nav-logo span { color: var(--brown-light); font-style: italic; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--brown-light);
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--tan); }
+
+    /* ── NATURE SECTION ── */
+    .nature-section { background: #1e2d1a; }
+    .nature-section .section-label { color: #7fb069; }
+    .nature-section .section-title { color: #ffffff; }
+    .nature-section .section-subtitle { color: #a8c88e; }
+    .nature-card {
+      background: var(--tan);
+      border: 1px solid var(--brown-light);
+      border-radius: 4px;
+      overflow: hidden;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .nature-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.3); }
+    .nature-card .shop-card-header { border-bottom: 1px solid var(--brown-light); }
+    .nature-card .shop-name { color: var(--espresso); }
+    .nature-card .shop-rating { background: var(--brown-dark); }
+    .nature-card .shop-neighborhood { color: var(--brown-dark); }
+    .nature-card .shop-desc { color: var(--espresso); }
+    .nature-card .shop-meta { color: var(--brown-dark); }
+    .nature-card .tag { background: rgba(92,61,46,0.15); color: var(--espresso); border: 1px solid var(--brown-light); }
+    .park-callout {
+      margin-top: 0.9rem;
+      padding: 0.7rem 0.9rem;
+      background: rgba(92,61,46,0.1);
+      border-left: 3px solid var(--brown-mid);
+      border-radius: 0 2px 2px 0;
+      font-size: 0.82rem;
+      color: var(--brown-dark);
+      line-height: 1.5;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      background:
+        radial-gradient(ellipse at 30% 60%, rgba(139,99,71,0.25) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, rgba(184,92,56,0.12) 0%, transparent 50%),
+        linear-gradient(160deg, var(--espresso) 0%, #3d2214 40%, #5c3d2e 100%);
+      display: flex; align-items: center; justify-content: center;
+      text-align: center;
+      padding: 6rem 2rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        radial-gradient(circle at 20% 80%, rgba(196,168,130,0.06) 1px, transparent 1px),
+        radial-gradient(circle at 80% 20%, rgba(196,168,130,0.06) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 700px; }
+    .hero-eyebrow {
+      font-size: 0.75rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--brown-light);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.2s forwards;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 8vw, 5.5rem);
+      color: var(--cream);
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.4s forwards;
+    }
+    .hero h1 em { color: var(--brown-light); font-style: italic; display: block; }
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--tan);
+      font-weight: 300;
+      line-height: 1.7;
+      max-width: 500px;
+      margin: 0 auto 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.6s forwards;
+    }
+    .hero-cta {
+      display: inline-flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.8s forwards;
+    }
+    .btn {
+      padding: 0.85rem 2rem;
+      border-radius: 2px;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.25s;
+      display: inline-block;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+      border: none;
+    }
+    .btn-primary:hover { background: #c96840; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(184,92,56,0.4); }
+    .btn-outline {
+      background: transparent;
+      color: var(--tan);
+      border: 1px solid rgba(196,168,130,0.5);
+    }
+    .btn-outline:hover { border-color: var(--tan); color: white; transform: translateY(-2px); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── SECTIONS ── */
+    section { padding: 6rem 2rem; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      color: var(--brown-dark);
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+    .section-subtitle {
+      color: var(--brown-dark);
+      font-weight: 300;
+      font-size: 1.05rem;
+      line-height: 1.7;
+      max-width: 560px;
+      margin-bottom: 3rem;
+    }
+
+    /* ── MAP SECTION ── */
+    #map { background: var(--cream); }
+    .map-embed {
+      width: 100%;
+      height: 520px;
+      border-radius: 4px;
+      border: none;
+      box-shadow: 0 4px 40px rgba(92,61,46,0.15);
+    }
+    .map-note {
+      margin-top: 1rem;
+      font-size: 0.8rem;
+      color: var(--brown-dark);
+      font-style: italic;
+    }
+
+    /* ── SHOP CARDS ── */
+    #shops { background: var(--warm-white); }
+    .filter-bar {
+      display: flex; flex-wrap: wrap; gap: 0.6rem;
+      margin-bottom: 2.5rem;
+    }
+    .filter-btn {
+      padding: 0.45rem 1.1rem;
+      border: 1px solid var(--brown-light);
+      background: transparent;
+      color: var(--brown-dark);
+      border-radius: 100px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      font-family: 'Lato', sans-serif;
+      letter-spacing: 0.05em;
+      transition: all 0.2s;
+    }
+    .filter-btn.active,
+    .filter-btn:hover { background: var(--brown-mid); color: white; border-color: var(--brown-mid); }
+
+    .shop-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .shop-card {
+      background: var(--cream);
+      border: 1px solid var(--tan);
+      border-radius: 4px;
+      overflow: hidden;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .shop-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(92,61,46,0.15); }
+    .shop-card-header {
+      padding: 1.5rem 1.5rem 1rem;
+      border-bottom: 1px solid var(--tan);
+      display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;
+    }
+    .shop-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      color: var(--brown-dark);
+      line-height: 1.3;
+    }
+    .shop-rating {
+      display: flex; align-items: center; gap: 0.3rem;
+      background: var(--brown-mid);
+      color: white;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 0.25rem 0.6rem;
+      border-radius: 2px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .shop-card-body { padding: 1rem 1.5rem 1.5rem; }
+    .shop-neighborhood {
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.6rem;
+    }
+    .shop-desc {
+      font-size: 0.9rem;
+      color: var(--text);
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+    .shop-meta {
+      display: flex; flex-direction: column; gap: 0.35rem;
+      font-size: 0.8rem;
+      color: var(--brown-dark);
+    }
+    .shop-meta span { display: flex; align-items: center; gap: 0.4rem; }
+    .shop-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.9rem; }
+    .tag {
+      font-size: 0.72rem;
+      letter-spacing: 0.05em;
+      background: var(--tan);
+      color: var(--brown-dark);
+      padding: 0.2rem 0.6rem;
+      border-radius: 2px;
+    }
+
+    /* ── SUBMIT FORM ── */
+    #submit { background: var(--espresso); }
+    #submit .section-title { color: var(--cream); }
+    #submit .section-label { color: var(--brown-light); }
+    #submit .section-subtitle { color: var(--tan); }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-group.full { grid-column: 1 / -1; }
+    label {
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--brown-light);
+    }
+    input, textarea, select {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(196,168,130,0.25);
+      border-radius: 2px;
+      padding: 0.75rem 1rem;
+      color: var(--cream);
+      font-family: 'Lato', sans-serif;
+      font-size: 0.9rem;
+      transition: border-color 0.2s;
+      width: 100%;
+    }
+    input::placeholder, textarea::placeholder { color: rgba(196,168,130,0.4); }
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: var(--brown-light);
+    }
+    textarea { resize: vertical; min-height: 120px; }
+    select option { background: var(--espresso); color: var(--cream); }
+    .form-submit { margin-top: 0.5rem; }
+
+    /* ── SUCCESS ── */
+    .success-msg {
+      display: none;
+      background: rgba(139,99,71,0.2);
+      border: 1px solid var(--brown-light);
+      border-radius: 4px;
+      padding: 1.25rem 1.5rem;
+      color: var(--tan);
+      font-size: 0.9rem;
+      margin-top: 1rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #1a0e09;
+      padding: 3rem 2rem;
+      text-align: center;
+      color: var(--tan);
+      font-size: 0.85rem;
+    }
+    footer .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: var(--tan);
+      margin-bottom: 0.75rem;
+    }
+    footer p { color: rgba(196,168,130,0.5); font-size: 0.78rem; margin-top: 0.5rem; }
+
+    /* ── MOBILE ── */
+    @media (max-width: 640px) {
+      nav { padding: 0 1rem; }
+      .nav-links { display: none; }
+      .form-grid { grid-template-columns: 1fr; }
+      .form-group.full { grid-column: 1; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Greater Columbus <span>Coffee</span></div>
+  <ul class="nav-links">
+    <li><a href="#map">Map</a></li>
+    <li><a href="#shops">Shops</a></li>
+    <li><a href="#nature">Coffee + Nature</a></li>
+    <li><a href="#submit">Submit a Shop</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <p class="hero-eyebrow">☕ Your Guide to Central Ohio's Best Brews</p>
+    <h1>Greater Columbus <em>Coffee Guide</em></h1>
+    <p>From German Village to Sunbury and Delaware — discover the independent coffee shops, roasters, and hidden gems across the Columbus region worth waking up for.</p>
+    <div class="hero-cta">
+      <a href="#shops" class="btn btn-primary">Explore Shops</a>
+      <a href="#map" class="btn btn-outline">View the Map</a>
+    </div>
+  </div>
+</section>
+
+<!-- MAP -->
+<section id="map">
+  <div class="container">
+    <p class="section-label">Find Your Next Cup</p>
+    <h2 class="section-title">Coffee Shops Around Columbus</h2>
+    <p class="section-subtitle">Interactive map of coffee shops across Greater Columbus — zoom and pan to explore your area.</p>
+    <div style="width:100%;height:540px;border-radius:4px;overflow:hidden;box-shadow:0 4px 40px rgba(92,61,46,0.15);">
+      <iframe
+        width="100%" height="100%"
+        style="border:0;"
+        title="Columbus Coffee Map"
+        src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d193025.4!2d-83.0007!3d39.9612!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1sindependent+coffee+shops+Columbus+Ohio!5e0!3m2!1sen!2sus!4v1700000000001!5m2!1sen!2sus"
+        allowfullscreen
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+    </div>
+    <p class="map-note">📍 Map shows coffee shops across Columbus. Use the shop directory below to explore all Greater Columbus locations — or <a href="https://www.google.com/maps/search/coffee+shops+Columbus+Ohio" target="_blank" style="color: var(--accent);">open in Google Maps</a> to search your area.</p>
+  </div>
+</section>
+
+<!-- SHOP DIRECTORY -->
+<section id="shops">
+  <div class="container">
+    <p class="section-label">The Directory</p>
+    <h2 class="section-title">Featured Coffee Shops</h2>
+    <p class="section-subtitle">From the Short North to Sunbury — hand-picked from across the Greater Columbus region, covering every neighborhood and suburb worth exploring.</p>
+
+    <div class="filter-bar">
+      <button class="filter-btn active" onclick="filterShops('all', this)">All Shops</button>
+      <button class="filter-btn" onclick="filterShops('german-village', this)">German Village</button>
+      <button class="filter-btn" onclick="filterShops('short-north', this)">Short North</button>
+      <button class="filter-btn" onclick="filterShops('clintonville', this)">Clintonville</button>
+      <button class="filter-btn" onclick="filterShops('downtown', this)">Downtown</button>
+      <button class="filter-btn" onclick="filterShops('franklinton', this)">Franklinton</button>
+      <button class="filter-btn" onclick="filterShops('grandview', this)">Grandview</button>
+      <button class="filter-btn" onclick="filterShops('westerville', this)">Westerville</button>
+      <button class="filter-btn" onclick="filterShops('dublin', this)">Dublin</button>
+      <button class="filter-btn" onclick="filterShops('gahanna', this)">Gahanna</button>
+      <button class="filter-btn" onclick="filterShops('hilliard', this)">Hilliard</button>
+      <button class="filter-btn" onclick="filterShops('grove-city', this)">Grove City</button>
+      <button class="filter-btn" onclick="filterShops('pickerington', this)">Pickerington</button>
+      <button class="filter-btn" onclick="filterShops('delaware', this)">Delaware</button>
+      <button class="filter-btn" onclick="filterShops('sunbury', this)">Sunbury</button>
+      <button class="filter-btn" onclick="filterShops('worthington', this)">Worthington</button>
+      <button class="filter-btn" onclick="filterShops('reynoldsburg', this)">Reynoldsburg</button>
+      <button class="filter-btn" onclick="filterShops('upper-arlington', this)">Upper Arlington</button>
+      <button class="filter-btn" onclick="filterShops('bexley', this)">Bexley</button>
+      <button class="filter-btn" onclick="filterShops('lewis-center', this)">Lewis Center</button>
+      <button class="filter-btn" onclick="filterShops('powell', this)">Powell</button>
+      <button class="filter-btn" onclick="filterShops('new-albany', this)">New Albany</button>
+      <button class="filter-btn" onclick="filterShops('lancaster', this)">Lancaster</button>
+      <button class="filter-btn" onclick="filterShops('galena', this)">Galena</button>
+    </div>
+
+    <div class="shop-grid" id="shopGrid">
+
+      <div class="shop-card" data-neighborhood="grandview">
+        <div class="shop-card-header">
+          <div class="shop-name">Stauf's Coffee Roasters</div>
+          <div class="shop-rating">★ 4.6</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Grandview Heights</div>
+          <p class="shop-desc">A Columbus institution since 1998. Beans sourced from 20 countries, legendary lines, and a menu that never disappoints. Their Victorian Village church location is jaw-dropping.</p>
+          <div class="shop-meta">
+            <span>📍 1277 Grandview Ave, Columbus, OH 43212</span>
+            <span>🕐 Mon–Fri 6:30am–5pm · Sat 7am–6pm · Sun 8am–5pm</span>
+            <span>📞 (614) 486-4861</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Local Roaster</span>
+            <span class="tag">Great for Work</span>
+            <span class="tag">Baked Goods</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="shop-card" data-neighborhood="german-village">
+        <div class="shop-card-header">
+          <div class="shop-name">Fox in the Snow Cafe</div>
+          <div class="shop-rating">★ 4.6</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">German Village</div>
+          <p class="shop-desc">Beloved bakery-café in the heart of German Village. Known for stunning pastries and a warm, family-filled atmosphere. Expect a wait on weekends — worth every minute.</p>
+          <div class="shop-meta">
+            <span>📍 210 Thurman Ave, Columbus, OH 43206</span>
+            <span>🕐 Mon–Fri 7am–3pm · Sat–Sun 8am–3pm</span>
+            <span>📞 (614) 826-0007</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Bakery</span>
+            <span class="tag">Instagrammable</span>
+            <span class="tag">Family Friendly</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="shop-card" data-neighborhood="short-north">
+        <div class="shop-card-header">
+          <div class="shop-name">Mission Coffee Co.</div>
+          <div class="shop-rating">★ 4.6</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Short North</div>
+          <p class="shop-desc">A Columbus classic with cozy vibes and consistently excellent espresso. Features a garage door that opens to the street in warm weather for unbeatable patio energy.</p>
+          <div class="shop-meta">
+            <span>📍 11 Price Ave, Columbus, OH 43201</span>
+            <span>🕐 Mon–Fri 7am–6pm · Sat–Sun 8am–6pm</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Patio</span>
+            <span class="tag">Specialty Espresso</span>
+            <span class="tag">Local Favorite</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="shop-card" data-neighborhood="downtown">
+        <div class="shop-card-header">
+          <div class="shop-name">The Roosevelt Coffeehouse</div>
+          <div class="shop-rating">★ 4.7</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Downtown Columbus</div>
+          <p class="shop-desc">Amazing coffee with an even better mission — Roosevelt partners with nonprofits fighting hunger, clean water access, and human trafficking. Social enterprise coffee done right.</p>
+          <div class="shop-meta">
+            <span>📍 300 E Long St, Columbus, OH 43215</span>
+            <span>🕐 Mon–Fri 7am–6pm · Sat–Sun 8am–6pm</span>
+            <span>📞 (614) 670-5228</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Social Enterprise</span>
+            <span class="tag">Study-Friendly</span>
+            <span class="tag">Pour Over</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="shop-card" data-neighborhood="clintonville">
+        <div class="shop-card-header">
+          <div class="shop-name">Crimson Cup — Clintonville</div>
+          <div class="shop-rating">★ 4.5</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Clintonville</div>
+          <p class="shop-desc">One of Ohio's oldest roasters (est. 1991), with award-winning beans and a drive-through for busy mornings. A staple on the Experience Columbus Coffee Trail.</p>
+          <div class="shop-meta">
+            <span>📍 4541 N High St, Columbus, OH 43214</span>
+            <span>🕐 Mon–Sat 6am–7pm · Sun 7am–7pm</span>
+            <span>📞 (614) 262-6212</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Drive-Through</span>
+            <span class="tag">Award-Winning</span>
+            <span class="tag">Coffee Trail</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="shop-card" data-neighborhood="clintonville">
+        <div class="shop-card-header">
+          <div class="shop-name">Florin Coffee</div>
+          <div class="shop-rating">★ 4.9</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">North Linden</div>
+          <p class="shop-desc">A hidden gem with a 4.9-star rating that speaks for itself. Craft espresso, seasonal lattes, housemade pastries, and beans sold in charming cans. A true neighborhood treasure.</p>
+          <div class="shop-meta">
+            <span>📍 874 Oakland Park Ave, Columbus, OH 43224</span>
+            <span>🕐 Mon–Fri 7am–3pm · Sat–Sun 8am–3pm</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Hidden Gem</span>
+            <span class="tag">Seasonal Lattes</span>
+            <span class="tag">Retail Beans</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="shop-card" data-neighborhood="franklinton">
+        <div class="shop-card-header">
+          <div class="shop-name">Bottoms Up Coffee</div>
+          <div class="shop-rating">★ 4.7</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Franklinton</div>
+          <p class="shop-desc">Craft coffee meets community activism in this Franklinton gem. Doubles as a co-working space and social enterprise — try the Sweet Potato Cream Pie latte or Honey Beet latte.</p>
+          <div class="shop-meta">
+            <span>📍 350 Mt Vernon Ave, Columbus, OH 43215</span>
+            <span>🕐 Mon–Fri 7:30am–3pm · Sat 8am–3pm</span>
+            <span>📞 (614) 662-2212</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Co-Working</span>
+            <span class="tag">Community Focus</span>
+            <span class="tag">Specialty Drinks</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="shop-card" data-neighborhood="grandview">
+        <div class="shop-card-header">
+          <div class="shop-name">Winn Winn Cafe</div>
+          <div class="shop-rating">★ 4.5</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Fifth by Northwest</div>
+          <p class="shop-desc">Woman-owned bakery and café known for outstanding gluten-free options, enormous cookies, and top-quality sandwiches. A neighborhood gem with genuine heart.</p>
+          <div class="shop-meta">
+            <span>📍 1212 W 3rd Ave, Columbus, OH 43212</span>
+            <span>🕐 Wed–Fri 8am–3pm · Sat 8am–3pm · Sun 8am–1pm</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Woman-Owned</span>
+            <span class="tag">Gluten-Free</span>
+            <span class="tag">Bakery</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- WESTERVILLE -->
+      <div class="shop-card" data-neighborhood="westerville">
+        <div class="shop-card-header">
+          <div class="shop-name">Java Central Café & Roaster</div>
+          <div class="shop-rating">★ 4.6</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Westerville</div>
+          <p class="shop-desc">A beloved community hub in the heart of Uptown Westerville. Family-owned, with extensive seating across two rooms, outdoor tables, live music nights, and a can't-miss Snickerdoodle Latte.</p>
+          <div class="shop-meta">
+            <span>📍 20 S State St, Westerville, OH 43081</span>
+            <span>🕐 Mon–Thu 7am–8pm · Fri–Sat 7am–10pm · Sun 7am–7pm</span>
+            <span>📞 (614) 839-0698</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Live Music</span>
+            <span class="tag">Community Space</span>
+            <span class="tag">Local Roaster</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="shop-card" data-neighborhood="westerville">
+        <div class="shop-card-header">
+          <div class="shop-name">Espresso Air Coffee Terminal</div>
+          <div class="shop-rating">★ 4.8</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Westerville</div>
+          <p class="shop-desc">Charming, compact café where the owner personally greets every guest. Known for rich espresso, Turkish bagels, and an atmosphere that regulars describe as warm and community-like.</p>
+          <div class="shop-meta">
+            <span>📍 25 N State St, Westerville, OH 43081</span>
+            <span>🕐 Mon–Fri 7am–5pm · Sat 8am–5pm · Sun 9am–5pm</span>
+            <span>📞 (614) 392-2944</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Owner-Operated</span>
+            <span class="tag">Turkish Bagels</span>
+            <span class="tag">Specialty Espresso</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="shop-card" data-neighborhood="westerville">
+        <div class="shop-card-header">
+          <div class="shop-name">Begin Cafe</div>
+          <div class="shop-rating">★ 4.7</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Westerville</div>
+          <p class="shop-desc">Bright, fun café in Uptown Westerville with a passionate focus on craft. Known for the best matcha in Columbus, house-made syrups, gluten-free baked goods, and a seasonal menu that surprises.</p>
+          <div class="shop-meta">
+            <span>📍 8 E Main St, Westerville, OH 43081</span>
+            <span>🕐 Wed–Sat 8am–2pm</span>
+            <span>📞 (614) 714-6980</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Best Matcha</span>
+            <span class="tag">Gluten-Free</span>
+            <span class="tag">House-Made Syrups</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- DUBLIN -->
+      <div class="shop-card" data-neighborhood="dublin">
+        <div class="shop-card-header">
+          <div class="shop-name">Fox in the Snow — Dublin</div>
+          <div class="shop-rating">★ 4.6</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Dublin</div>
+          <p class="shop-desc">The beloved German Village bakery-café now has a Dublin outpost in charming Historic Dublin. Same stunning pastries baked on-site, gorgeous seasonal croissants, and top-tier lattes. Worth the trip.</p>
+          <div class="shop-meta">
+            <span>📍 38 W Bridge St, Dublin, OH 43017</span>
+            <span>🕐 Mon–Fri 7am–3pm · Sat–Sun 8am–3pm</span>
+            <span>📞 (614) 826-0007</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Bakery</span>
+            <span class="tag">On-Site Baking</span>
+            <span class="tag">Historic Dublin</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="shop-card" data-neighborhood="dublin">
+        <div class="shop-card-header">
+          <div class="shop-name">Qamaria Yemeni Coffee Co.</div>
+          <div class="shop-rating">★ 4.3</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Dublin</div>
+          <p class="shop-desc">A unique Yemeni coffee experience open 24 hours. Famous for pistachio lattes, beef samosas, baklava, and fresh juices. One of Columbus's most distinctive and culturally rich café experiences.</p>
+          <div class="shop-meta">
+            <span>📍 6181 Sawmill Rd, Dublin, OH 43017</span>
+            <span>🕐 Open 24 Hours, 7 days a week</span>
+            <span>📞 (614) 389-0135</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Open 24hrs</span>
+            <span class="tag">Yemeni Coffee</span>
+            <span class="tag">Unique Menu</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- GAHANNA -->
+      <div class="shop-card" data-neighborhood="gahanna">
+        <div class="shop-card-header">
+          <div class="shop-name">Upper Cup Coffee</div>
+          <div class="shop-rating">★ 4.5</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Gahanna</div>
+          <p class="shop-desc">A Gahanna staple with an incredible value — think breakfast sandwiches with generous portions at prices that feel too good to be true, plus lattes with four espresso shots as standard.</p>
+          <div class="shop-meta">
+            <span>📍 121 Mill St, Gahanna, OH 43230</span>
+            <span>🕐 Mon–Fri 7am–5pm · Sat–Sun 8am–5pm</span>
+            <span>📞 (614) 383-7496</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Great Value</span>
+            <span class="tag">Food Menu</span>
+            <span class="tag">Breakfast Sandwiches</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="shop-card" data-neighborhood="gahanna">
+        <div class="shop-card-header">
+          <div class="shop-name">SGT Coffee Co.</div>
+          <div class="shop-rating">★ 5.0</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Gahanna</div>
+          <p class="shop-desc">Veteran-owned coffee shop in downtown Gahanna that started as a mobile trailer and grew into a gorgeous neighborhood café. Creative drinks crafted with love, and a staff that treats every customer like family.</p>
+          <div class="shop-meta">
+            <span>📍 140 N High St, Gahanna, OH 43230</span>
+            <span>🕐 Mon–Fri 7am–3pm · Sat 8am–2pm</span>
+            <span>📞 (614) 301-5446</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Veteran-Owned</span>
+            <span class="tag">5-Star Rated</span>
+            <span class="tag">Creative Drinks</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- HILLIARD -->
+      <div class="shop-card" data-neighborhood="hilliard">
+        <div class="shop-card-header">
+          <div class="shop-name">New Grounds Coffee House</div>
+          <div class="shop-rating">★ 4.5</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Hilliard</div>
+          <p class="shop-desc">A local favorite with a cozy atmosphere, friendly regulars, and a full food menu including pastries and breakfast sandwiches. Open early and popular with families and the after-school crowd.</p>
+          <div class="shop-meta">
+            <span>📍 6318 Scioto Darby Rd, Hilliard, OH 43026</span>
+            <span>🕐 Mon–Thu 6:30am–7pm · Fri 6:30am–6pm · Sat–Sun 7am–6pm</span>
+            <span>📞 (614) 876-9246</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Family Friendly</span>
+            <span class="tag">Early Hours</span>
+            <span class="tag">Food Menu</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- GROVE CITY -->
+      <div class="shop-card" data-neighborhood="grove-city">
+        <div class="shop-card-header">
+          <div class="shop-name">Pick'em Up Joe Coffee Co.</div>
+          <div class="shop-rating">★ 4.8</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Grove City</div>
+          <p class="shop-desc">The best cinnamon rolls in the city — that's not hype, that's the word on the street. This charming downtown Grove City café pairs exceptional pastries with serious espresso in a beautifully restored space.</p>
+          <div class="shop-meta">
+            <span>📍 3989 Broadway, Grove City, OH 43123</span>
+            <span>🕐 Mon–Sat 6am–3pm</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Best Cinnamon Rolls</span>
+            <span class="tag">Early Open</span>
+            <span class="tag">Pastries</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="shop-card" data-neighborhood="grove-city">
+        <div class="shop-card-header">
+          <div class="shop-name">Transcend Coffee + Roastery</div>
+          <div class="shop-rating">★ 4.5</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Grove City</div>
+          <p class="shop-desc">A roastery café right in the heart of downtown Grove City with a relaxed vibe and extended evening hours. Great for working from — free WiFi, cozy seating, and a straightforward espresso menu done well.</p>
+          <div class="shop-meta">
+            <span>📍 4050 Broadway, Grove City, OH 43123</span>
+            <span>🕐 Mon–Fri & Sun 7am–7pm · Sat 8am–12pm</span>
+            <span>📞 (614) 991-0911</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Roastery</span>
+            <span class="tag">Free WiFi</span>
+            <span class="tag">Late Hours</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- PICKERINGTON -->
+      <div class="shop-card" data-neighborhood="pickerington">
+        <div class="shop-card-header">
+          <div class="shop-name">Porters Coffee House & Bakery</div>
+          <div class="shop-rating">★ 4.5</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Pickerington</div>
+          <p class="shop-desc">A multi-room cozy destination with a drive-through, rich espresso drinks, homemade baked goods, and a menu that includes crowd-favorite pepperoni rolls. Two locations in Pickerington.</p>
+          <div class="shop-meta">
+            <span>📍 194 W Church St, Pickerington, OH 43147</span>
+            <span>🕐 Mon–Fri 6:30am–6pm · Sat–Sun 7am–4pm</span>
+            <span>📞 (614) 783-4830</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Drive-Through</span>
+            <span class="tag">Bakery</span>
+            <span class="tag">Homemade Baked Goods</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- DELAWARE -->
+      <div class="shop-card" data-neighborhood="delaware">
+        <div class="shop-card-header">
+          <div class="shop-name">Choffey's Coffee & Confections</div>
+          <div class="shop-rating">★ 4.8</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Delaware, OH</div>
+          <p class="shop-desc">Straight out of a Hallmark movie — this cozy Delaware gem pairs exceptional coffee with handmade chocolates, candies, and confections. A true destination shop that makes the drive from Columbus worth it.</p>
+          <div class="shop-meta">
+            <span>📍 17 W Winter St, Delaware, OH 43015</span>
+            <span>🕐 Mon–Sat 9am–5pm</span>
+            <span>📞 (740) 417-9406</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Chocolates & Candy</span>
+            <span class="tag">Destination Shop</span>
+            <span class="tag">Cozy Atmosphere</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="shop-card" data-neighborhood="delaware">
+        <div class="shop-card-header">
+          <div class="shop-name">Coffeeology</div>
+          <div class="shop-rating">★ 4.5</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Delaware, OH</div>
+          <p class="shop-desc">An industrial-chic café with a boutique feel — browse small business goods while your latte is made. Known for aromatic drinks like raw honey maple and blueberry orange blossom lattes. Free WiFi and relaxed seating.</p>
+          <div class="shop-meta">
+            <span>📍 43 N Sandusky St, Delaware, OH 43015</span>
+            <span>🕐 Mon 7am–5pm · Tue–Thu 7am–6pm · Fri 7am–8pm · Sat 8am–6pm · Sun 12pm–5pm</span>
+            <span>📞 (740) 417-9212</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Small Biz Retail</span>
+            <span class="tag">Free WiFi</span>
+            <span class="tag">Unique Lattes</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="shop-card" data-neighborhood="delaware">
+        <div class="shop-card-header">
+          <div class="shop-name">Coastline Coffee</div>
+          <div class="shop-rating">★ 4.7</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Delaware, OH</div>
+          <p class="shop-desc">A California surfer café dropped into central Ohio — complete with surfboards, a beachy palette, and seasonal lattes like the Seaside Daisy (honey cinnamon vanilla) and the Buckeye Latte. Surprisingly fast WiFi too.</p>
+          <div class="shop-meta">
+            <span>📍 7775 Dublin Rd, Delaware, OH 43015</span>
+            <span>🕐 Mon–Sat 7am–5pm · Sun 8am–5pm</span>
+            <span>📞 (614) 273-4144</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Unique Vibe</span>
+            <span class="tag">Seasonal Lattes</span>
+            <span class="tag">Fast WiFi</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUNBURY -->
+      <div class="shop-card" data-neighborhood="sunbury">
+        <div class="shop-card-header">
+          <div class="shop-name">Village Coffee of Sunbury</div>
+          <div class="shop-rating">★ 4.8</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Sunbury, OH</div>
+          <p class="shop-desc">A stunning historic building transformed into the perfect small-town coffee escape. Fireplace seating, window views of downtown Sunbury, house-made honey syrup, and gluten-free/vegan baked goods. Worth a special trip.</p>
+          <div class="shop-meta">
+            <span>📍 25 E Granville St, Sunbury, OH 43074</span>
+            <span>🕐 Mon–Wed & Fri 6:30am–4pm · Thu 6:30am–8pm · Sat 7:30am–4pm</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Historic Building</span>
+            <span class="tag">Fireplace</span>
+            <span class="tag">Vegan & GF Options</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- STAUF'S VICTORIAN VILLAGE (Church location) -->
+      <div class="shop-card" data-neighborhood="short-north">
+        <div class="shop-card-header">
+          <div class="shop-name">Stauf's — Victorian Village Church</div>
+          <div class="shop-rating">★ 4.7</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Victorian Village</div>
+          <p class="shop-desc">One of Columbus's most breathtaking café interiors — a fully restored 1880s Presbyterian church with original stained glass windows, soaring ceilings, and pews as communal seating. This is the flagship Stauf's and it's unforgettable.</p>
+          <div class="shop-meta">
+            <span>📍 1334 Neil Ave, Columbus, OH 43201</span>
+            <span>🕐 Mon–Fri 7am–5pm · Sat–Sun 8am–5pm</span>
+            <span>📞 (614) 486-4861</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Converted Church</span>
+            <span class="tag">Stained Glass</span>
+            <span class="tag">Must-See Interior</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ONE LINE COFFEE SHORT NORTH -->
+      <div class="shop-card" data-neighborhood="short-north">
+        <div class="shop-card-header">
+          <div class="shop-name">One Line Coffee — Short North</div>
+          <div class="shop-rating">★ 4.6</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Short North</div>
+          <p class="shop-desc">Father-son roasting operation since 2009, sourcing direct-trade single-origin beans from farmers worldwide. Their Short North showcase store features on-site small-batch roasting, a cupping lab, and latte art competitions.</p>
+          <div class="shop-meta">
+            <span>📍 745 N High St, Columbus, OH 43215</span>
+            <span>🕐 Mon–Thu 7am–7pm · Fri 7am–8pm · Sat 8am–9pm · Sun 8am–7pm</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Direct-Trade Roaster</span>
+            <span class="tag">Cupping Lab</span>
+            <span class="tag">Single-Origin</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ONE LINE FRANKLINTON -->
+      <div class="shop-card" data-neighborhood="franklinton">
+        <div class="shop-card-header">
+          <div class="shop-name">One Line Coffee — Franklinton</div>
+          <div class="shop-rating">★ 4.6</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Franklinton</div>
+          <p class="shop-desc">A bright, floor-to-ceiling windowed corner space in Franklinton's River &amp; Rich development. Same stellar single-origin beans, plus wine and Ohio beers on tap in the evenings — perfect for Franklinton Fridays.</p>
+          <div class="shop-meta">
+            <span>📍 471 W Rich St, Columbus, OH 43215</span>
+            <span>🕐 Mon–Fri 7am–7pm · Sat–Sun 8am–7pm</span>
+            <span>📞 (614) 929-5877</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Beer & Wine Evenings</span>
+            <span class="tag">Roastery</span>
+            <span class="tag">Art Gallery Building</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- BRIOSO DOWNTOWN -->
+      <div class="shop-card" data-neighborhood="downtown">
+        <div class="shop-card-header">
+          <div class="shop-name">Brioso Coffee — High St</div>
+          <div class="shop-rating">★ 4.6</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Downtown Columbus</div>
+          <p class="shop-desc">A Columbus specialty roaster since 2001 — one of the oldest in the city. Their downtown High St location is bright and modern with large windows. Don't miss the Ohio Maple Latte, a perennial Columbus favorite.</p>
+          <div class="shop-meta">
+            <span>📍 53 N High St, Columbus, OH 43215</span>
+            <span>🕐 Mon 7am–2pm · Tue–Fri 7am–7pm · Sat 8am–7pm</span>
+            <span>📞 (614) 670-8490</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Est. 2001</span>
+            <span class="tag">Ohio Maple Latte</span>
+            <span class="tag">Downtown Icon</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- BRIOSO ROASTERY -->
+      <div class="shop-card" data-neighborhood="downtown">
+        <div class="shop-card-header">
+          <div class="shop-name">Brioso Roastery & Coffee Bar</div>
+          <div class="shop-rating">★ 4.6</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Discovery District</div>
+          <p class="shop-desc">Where the magic happens — Brioso's roastery on Long Street features exposed brick, hardwood floors, communal low tables, and the roaster running right in the café. Watch the beans get roasted while you sip your espresso.</p>
+          <div class="shop-meta">
+            <span>📍 329 E Long St, Columbus, OH 43215</span>
+            <span>🕐 Mon–Fri 7am–2pm · Sat 8am–2pm</span>
+            <span>📞 (614) 754-9511</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Working Roastery</span>
+            <span class="tag">Watch the Roast</span>
+            <span class="tag">Cozy & Quiet</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- KAFE KEROUAC -->
+      <div class="shop-card" data-neighborhood="short-north">
+        <div class="shop-card-header">
+          <div class="shop-name">Kafe Kerouac</div>
+          <div class="shop-rating">★ 4.5</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">University District</div>
+          <p class="shop-desc">Columbus's beloved late-night alternative café near OSU — poetry slams, comedy shows, board games, art exhibitions, local beer, wine, and coffee all under one roof. Open until midnight on weeknights, 1am on weekends.</p>
+          <div class="shop-meta">
+            <span>📍 2250 N High St, Columbus, OH 43201</span>
+            <span>🕐 Mon–Thu 8am–12am · Fri 8am–1am · Sat 10am–1am · Sun 10am–10pm</span>
+            <span>📞 (614) 299-2672</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Late Night</span>
+            <span class="tag">Poetry & Live Events</span>
+            <span class="tag">Beer & Wine</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- EMMETT'S CAFE -->
+      <div class="shop-card" data-neighborhood="german-village">
+        <div class="shop-card-header">
+          <div class="shop-name">Emmett's Cafe — German Village</div>
+          <div class="shop-rating">★ 4.7</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">German Village</div>
+          <p class="shop-desc">A beloved neighborhood breakfast and lunch café serving what many consider the best cortado in Columbus. Egg breakfast sandwiches, breakfast burritos, and rich, well-crafted espresso in a warm, unpretentious setting.</p>
+          <div class="shop-meta">
+            <span>📍 744 S High St, Columbus, OH 43206</span>
+            <span>🕐 Mon–Fri 7am–2pm · Sat–Sun 8am–3pm</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Best Cortado</span>
+            <span class="tag">Breakfast & Lunch</span>
+            <span class="tag">Neighborhood Gem</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- PISTACIA VERA -->
+      <div class="shop-card" data-neighborhood="german-village">
+        <div class="shop-card-header">
+          <div class="shop-name">Pistacia Vera</div>
+          <div class="shop-rating">★ 4.7</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">German Village</div>
+          <p class="shop-desc">Columbus's most celebrated patisserie since 2004. Stunning floor-to-ceiling windows, near-legendary macarons, tarts, and croissants, all paired with locally roasted espresso. A few blocks from Schiller Park — perfect for a post-walk treat.</p>
+          <div class="shop-meta">
+            <span>📍 541 S 3rd St, Columbus, OH 43215</span>
+            <span>🕐 Daily 7am–7pm</span>
+            <span>📞 (614) 220-9070</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Famous Macarons</span>
+            <span class="tag">French Patisserie</span>
+            <span class="tag">Near Schiller Park</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- KOFFEE PARADISE -->
+      <div class="shop-card" data-neighborhood="reynoldsburg">
+        <div class="shop-card-header">
+          <div class="shop-name">Koffee Paradise</div>
+          <div class="shop-rating">★ 4.7</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Reynoldsburg</div>
+          <p class="shop-desc">Woman-owned Filipino-inspired café that's become one of the most talked-about spots on Columbus's east side. Famous for Ube lattes with cloud foam, Dalgona drinks, bubble tea, boba, and Filipino pastries like ensaymada and ube pandesal.</p>
+          <div class="shop-meta">
+            <span>📍 6308 E Main St, Reynoldsburg, OH 43068</span>
+            <span>🕐 Mon–Tue 7am–7pm · Wed 7am–4pm · Thu–Sun 7am–7pm</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Woman-Owned</span>
+            <span class="tag">Filipino-Inspired</span>
+            <span class="tag">Ube Lattes</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- KITTIE'S WORTHINGTON -->
+      <div class="shop-card" data-neighborhood="worthington">
+        <div class="shop-card-header">
+          <div class="shop-name">Kittie's — Worthington</div>
+          <div class="shop-rating">★ 4.6</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Old Worthington</div>
+          <p class="shop-desc">The warmest neighborhood café in Worthington, with house-made syrups, fresh-baked pastries delivered from the German Village flagship each morning, an on-site art gallery, and a community spirit that's totally infectious.</p>
+          <div class="shop-meta">
+            <span>📍 693 High St, Worthington, OH 43085</span>
+            <span>🕐 Daily 7am–4pm</span>
+            <span>📞 (614) 992-2899</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Art Gallery</span>
+            <span class="tag">House-Made Syrups</span>
+            <span class="tag">Village Green Views</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- KITTIE'S BEXLEY -->
+      <div class="shop-card" data-neighborhood="bexley">
+        <div class="shop-card-header">
+          <div class="shop-name">Kittie's Cafe — Bexley</div>
+          <div class="shop-rating">★ 4.6</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Bexley</div>
+          <p class="shop-desc">Connected to a bookstore — the ideal Columbus coffee shop. The Bexley location serves One Line and Stumptown coffee alongside fresh mini cupcakes, scones, and cinnamon rolls. A favorite for book lovers and slow mornings.</p>
+          <div class="shop-meta">
+            <span>📍 2424 E Main St, Bexley, OH 43209</span>
+            <span>🕐 Daily 7am–4:30pm</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Attached Bookstore</span>
+            <span class="tag">Cupcakes</span>
+            <span class="tag">Neighborhood Feel</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- QAMARIA LEWIS CENTER -->
+      <div class="shop-card" data-neighborhood="lewis-center">
+        <div class="shop-card-header">
+          <div class="shop-name">Qamaria Yemeni Coffee — Lewis Center</div>
+          <div class="shop-rating">★ 4.5</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Lewis Center</div>
+          <p class="shop-desc">Self-proclaimed "biggest coffee shop in Ohio" — and it might just be true. Opened 2024, with gorgeous Yemeni decor, cushioned bench seating along every wall, pistachio lattes, milk cakes, fresh juices, and beef samosas. Open 24 hours.</p>
+          <div class="shop-meta">
+            <span>📍 8683 Campden Lakes Blvd, Lewis Center, OH 43035</span>
+            <span>🕐 Open 24 Hours, 7 days a week</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Open 24hrs</span>
+            <span class="tag">Ohio's Biggest Café</span>
+            <span class="tag">Yemeni Coffee</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- UPPER ARLINGTON / CRIMSON CUP -->
+      <div class="shop-card" data-neighborhood="upper-arlington">
+        <div class="shop-card-header">
+          <div class="shop-name">Crimson Cup — Upper Arlington</div>
+          <div class="shop-rating">★ 4.6</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Upper Arlington</div>
+          <p class="shop-desc">The Upper Arlington Crimson Cup is a reader-favorite and one of the most beloved suburban locations. A classic café experience with award-winning beans and easy parking — a reliable go-to for the west side.</p>
+          <div class="shop-meta">
+            <span>📍 1490 W Lane Ave, Upper Arlington, OH 43221</span>
+            <span>🕐 Mon–Sat 6am–7pm · Sun 7am–7pm</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Award-Winning</span>
+            <span class="tag">Easy Parking</span>
+            <span class="tag">Local Roaster</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- NEW SHOPS BATCH 3 -->
+
+      <!-- RAVELLO'S ITALIAN VILLAGE -->
+      <div class="shop-card" data-neighborhood="short-north">
+        <div class="shop-card-header">
+          <div class="shop-name">Ravello's Coffee</div>
+          <div class="shop-rating">★ 4.8</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Italian Village</div>
+          <p class="shop-desc">A buzzy Italian Village gem with impossibly creative seasonal drinks — Tiramisu lattes, Cookie Butter lattes, Teddy Graham lattes — and a cloud foam matcha that earns its own fan club. Eclectic, vibrant, and deeply local.</p>
+          <div class="shop-meta">
+            <span>📍 883½ N 4th St, Columbus, OH 43201</span>
+            <span>🕐 Mon–Fri 7am–2pm · Sat 7:30am–1pm</span>
+            <span>📞 (614) 929-7181</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Creative Seasonals</span>
+            <span class="tag">Italian Village</span>
+            <span class="tag">Cloud Foam Matcha</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- BADA BEAN ITALIAN VILLAGE -->
+      <div class="shop-card" data-neighborhood="short-north">
+        <div class="shop-card-header">
+          <div class="shop-name">Bada Bean Bada Booze — Italian Village</div>
+          <div class="shop-rating">★ 4.5</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Italian Village</div>
+          <p class="shop-desc">Coffee by day, craft cocktails and espresso martinis by night. One of Columbus's best "third spaces" — modern, cozy, spacious, with excellent community energy. Great breakfast burritos too. Also has a Quarry Trails Metro Park location.</p>
+          <div class="shop-meta">
+            <span>📍 231 E 1st Ave, Columbus, OH 43201</span>
+            <span>🕐 Mon–Sat 7am–10pm · Sun 7am–4pm</span>
+            <span>📞 (614) 318-1296</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Coffee & Cocktails</span>
+            <span class="tag">Espresso Martinis</span>
+            <span class="tag">Third Space</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- CASA CACAO -->
+      <div class="shop-card" data-neighborhood="clintonville">
+        <div class="shop-card-header">
+          <div class="shop-name">Casa Cacao</div>
+          <div class="shop-rating">★ 4.9</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Clintonville</div>
+          <p class="shop-desc">A creative community café unlike anything else in Columbus — coffee, kava, kombucha, house-made cacao drinks, and a stunning pollinator garden patio. Hosts regular events, art shows, and community nights. Open late on weekends.</p>
+          <div class="shop-meta">
+            <span>📍 367 E Hudson St, Columbus, OH 43202</span>
+            <span>🕐 Daily 8am–8pm (Fri–Sat until 10pm)</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Cacao & Kava</span>
+            <span class="tag">Pollinator Garden</span>
+            <span class="tag">Community Events</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- TWO TIGERS -->
+      <div class="shop-card" data-neighborhood="clintonville">
+        <div class="shop-card-header">
+          <div class="shop-name">Two Tigers Coffee</div>
+          <div class="shop-rating">★ 5.0</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Clintonville</div>
+          <p class="shop-desc">A tiny, one-person operation that somehow draws a line out the door every morning. Owner Tony runs the whole show with craft espresso, a very limited menu done perfectly, and a warm neighborhood spirit that regulars call irreplaceable.</p>
+          <div class="shop-meta">
+            <span>📍 3341 N High St, Columbus, OH 43202</span>
+            <span>🕐 Mon & Thu–Fri 7am–2pm · Sat–Sun 8am–3pm</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">5-Star Rated</span>
+            <span class="tag">One-Person Shop</span>
+            <span class="tag">Clintonville Icon</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- GLOBAL GALLERY -->
+      <div class="shop-card" data-neighborhood="clintonville">
+        <div class="shop-card-header">
+          <div class="shop-name">Global Gallery Coffee Shop</div>
+          <div class="shop-rating">★ 4.7</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Clintonville</div>
+          <p class="shop-desc">A nonprofit café attached to a fair-trade market, featuring global goods from artisans worldwide. Spacious with covered outdoor seating, great seasonal drinks like a Rosemary Brown Sugar Latte, and a bagel bomb that's become a local cult item.</p>
+          <div class="shop-meta">
+            <span>📍 3535 N High St, Columbus, OH 43214</span>
+            <span>🕐 Mon–Thu 7am–7pm · Fri–Sat 8am–8pm · Sun 8am–7pm</span>
+            <span>📞 (614) 262-5535</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Nonprofit</span>
+            <span class="tag">Fair-Trade Market</span>
+            <span class="tag">Bagel Bomb</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- CUP O JOE -->
+      <div class="shop-card" data-neighborhood="clintonville">
+        <div class="shop-card-header">
+          <div class="shop-name">Cup O Joe Coffee House</div>
+          <div class="shop-rating">★ 4.5</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Clintonville</div>
+          <p class="shop-desc">A classic Clintonville neighborhood café that's been a community anchor for years. Airy, comfortable, penguin-themed interior, excellent value (two drinks for under $8), and a welcoming staff that greets regulars by name.</p>
+          <div class="shop-meta">
+            <span>📍 2990 N High St, Columbus, OH 43202</span>
+            <span>🕐 Daily 7am–6pm</span>
+            <span>📞 (614) 447-7563</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Great Value</span>
+            <span class="tag">Neighborhood Anchor</span>
+            <span class="tag">Penguin Decor</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- BITTY & BEAU'S -->
+      <div class="shop-card" data-neighborhood="upper-arlington">
+        <div class="shop-card-header">
+          <div class="shop-name">Bitty & Beau's Coffee</div>
+          <div class="shop-rating">★ 4.9</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Upper Arlington</div>
+          <p class="shop-desc">A national chain with a powerful mission — Bitty & Beau's is a coffee shop that employs people with intellectual and developmental disabilities. The UA location is exceptional, with warm service, great lattes, and the best muffins in the area. Come for the coffee, stay for the good vibes.</p>
+          <div class="shop-meta">
+            <span>📍 3110 Kingsdale Center, Upper Arlington, OH 43221</span>
+            <span>🕐 Daily 8am–5pm</span>
+            <span>📞 (614) 372-5276</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Disability Employment</span>
+            <span class="tag">Social Mission</span>
+            <span class="tag">Incredible Muffins</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- CRIMSON CUP UPPER ARLINGTON (NW BLVD) -->
+      <div class="shop-card" data-neighborhood="upper-arlington">
+        <div class="shop-card-header">
+          <div class="shop-name">Crimson Cup — Northwest Blvd</div>
+          <div class="shop-rating">★ 4.6</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Upper Arlington</div>
+          <p class="shop-desc">One of the most popular Crimson Cup locations in the city, with cozy fireplace seating, rose chai syrup, a full espresso menu, and an early opening at 6am. A perennial favorite with the UA community and OSU crowd alike.</p>
+          <div class="shop-meta">
+            <span>📍 2468 Northwest Blvd, Upper Arlington, OH 43221</span>
+            <span>🕐 Mon–Sat 6am–7pm · Sun 7am–7pm</span>
+            <span>📞 (614) 641-7020</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Fireplace Seating</span>
+            <span class="tag">Rose Chai Syrup</span>
+            <span class="tag">Early Hours</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- COLIN'S COFFEE UA -->
+      <div class="shop-card" data-neighborhood="upper-arlington">
+        <div class="shop-card-header">
+          <div class="shop-name">Colin's Coffee</div>
+          <div class="shop-rating">★ 4.6</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Upper Arlington</div>
+          <p class="shop-desc">A beloved UA institution where the owner is behind the counter most days. Regulars stop in to chat as much as to drink. Sunny open-plan layout, great bagel sandwiches, house roasted beans, and a banana bread latte that people drive across the city for.</p>
+          <div class="shop-meta">
+            <span>📍 2812 Fishinger Rd, Upper Arlington, OH 43221</span>
+            <span>🕐 Mon–Sat 7am–12pm · Sun 8am–12pm</span>
+            <span>📞 (614) 668-4380</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Owner-Operated</span>
+            <span class="tag">Banana Bread Latte</span>
+            <span class="tag">Bagel Sandwiches</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- BARREL AND BLOOM -->
+      <div class="shop-card" data-neighborhood="worthington">
+        <div class="shop-card-header">
+          <div class="shop-name">Barrel and Bloom</div>
+          <div class="shop-rating">★ 4.7</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Linworth / North Worthington</div>
+          <p class="shop-desc">Coffee shop by morning, craft brewery and cocktail bar by evening — a wildly versatile neighborhood spot. Serves Stauf's drip coffee alongside its own craft beers. Spacious, family-friendly layout with long communal tables and even cartoons for the kids.</p>
+          <div class="shop-meta">
+            <span>📍 2365 W Dublin-Granville Rd, Columbus, OH 43235</span>
+            <span>🕐 Mon 8am–2pm · Tue–Thu 8am–10pm · Fri–Sat 8am–12am · Sun 8am–9pm</span>
+            <span>📞 (614) 698-0444</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Coffee & Craft Beer</span>
+            <span class="tag">Family-Friendly</span>
+            <span class="tag">Evening Bar</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SHIBAM COFFEE WESTERVILLE -->
+      <div class="shop-card" data-neighborhood="westerville">
+        <div class="shop-card-header">
+          <div class="shop-name">Shibam Coffee</div>
+          <div class="shop-rating">★ 4.8</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Westerville</div>
+          <p class="shop-desc">An outstanding Yemeni café with a warm, beautifully decorated interior, comfortable couch seating, and a menu that includes Adani tea, pistachio lattes, flaky croissants, Turkish delight, and tiramisu. Open until midnight most nights — rare for the suburbs.</p>
+          <div class="shop-meta">
+            <span>📍 8310 Sancus Blvd, Westerville, OH 43081</span>
+            <span>🕐 Mon–Thu & Sun 7am–11pm · Fri–Sat 7am–12am</span>
+            <span>📞 (614) 505-1445</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Yemeni Coffee</span>
+            <span class="tag">Open Late</span>
+            <span class="tag">Pistachio Latte</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ESPRESSO 22 POWELL -->
+      <div class="shop-card" data-neighborhood="powell">
+        <div class="shop-card-header">
+          <div class="shop-name">Espresso 22</div>
+          <div class="shop-rating">★ 4.6</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Powell</div>
+          <p class="shop-desc">A cozy little Powell gem with plant-filled interiors, a charming outdoor patio, knowledgeable staff, and creative seasonal drink recommendations. Also carries der Dutchman donuts. Has a drive-through and is a true community favorite.</p>
+          <div class="shop-meta">
+            <span>📍 22 Liberty St, Powell, OH 43065</span>
+            <span>🕐 Mon–Fri 7am–5pm · Sat 8am–5pm · Sun 8am–4pm</span>
+            <span>📞 (614) 436-6603</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Drive-Through</span>
+            <span class="tag">Plant Decor</span>
+            <span class="tag">Seasonal Drinks</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- MR. BEAN POWELL -->
+      <div class="shop-card" data-neighborhood="powell">
+        <div class="shop-card-header">
+          <div class="shop-name">Mr. Bean Coffee & Gelato</div>
+          <div class="shop-rating">★ 4.6</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Powell</div>
+          <p class="shop-desc">Modern Powell café with hanging plants from the ceiling, an in-store fountain, stunning wall art, and the bonus of housemade gelato. Friendly staff who encourage customization, plus a sunny patio and free WiFi. A delightful surprise.</p>
+          <div class="shop-meta">
+            <span>📍 170 W Olentangy St, Powell, OH 43065</span>
+            <span>🕐 Mon–Wed & Fri–Sat 7am–5pm · Thu 9am–5pm · Sun 9am–4pm</span>
+            <span>📞 (220) 246-8325</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Gelato</span>
+            <span class="tag">Hanging Plants</span>
+            <span class="tag">In-Store Fountain</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- FOX IN THE SNOW NEW ALBANY -->
+      <div class="shop-card" data-neighborhood="new-albany">
+        <div class="shop-card-header">
+          <div class="shop-name">Fox in the Snow — New Albany</div>
+          <div class="shop-rating">★ 4.5</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">New Albany</div>
+          <p class="shop-desc">The third Fox in the Snow location brings the same legendary pastries baked on-site, gorgeous latte art, and seasonal croissants to the New Albany Market District. Busy on weekends — arrive early or expect a cheerful wait.</p>
+          <div class="shop-meta">
+            <span>📍 160 W Main St, New Albany, OH 43054</span>
+            <span>🕐 Mon–Fri 7am–3pm · Sat–Sun 8am–3pm</span>
+            <span>📞 (614) 826-0007</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Pastries</span>
+            <span class="tag">On-Site Baking</span>
+            <span class="tag">New Albany</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- THE MORNING RITUAL NEW ALBANY -->
+      <div class="shop-card" data-neighborhood="new-albany">
+        <div class="shop-card-header">
+          <div class="shop-name">The Morning Ritual</div>
+          <div class="shop-rating">★ 4.3</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">New Albany</div>
+          <p class="shop-desc">New Albany's most versatile café — walk-up outdoor window, cozy indoor seating with plush armchairs, vegan biscuit breakfast sandwiches, pup cups, and Spanish mochas. Open until 7pm and a true neighborhood gathering spot.</p>
+          <div class="shop-meta">
+            <span>📍 5704 New Albany Rd W, New Albany, OH 43054</span>
+            <span>🕐 Mon–Fri 6am–7pm · Sat–Sun 7am–7pm</span>
+            <span>📞 (614) 953-1049</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Walk-Up Window</span>
+            <span class="tag">Vegan Options</span>
+            <span class="tag">Pup Cups</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- L-CITY COFFEE LANCASTER -->
+      <div class="shop-card" data-neighborhood="lancaster">
+        <div class="shop-card-header">
+          <div class="shop-name">L-City Coffee+</div>
+          <div class="shop-rating">★ 4.8</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Lancaster, OH</div>
+          <p class="shop-desc">Lancaster's crown jewel — a multi-room café with an underground event space, free pinball machines, live drag shows, rotating creative lattes (Cherry Cordial Mocha is legendary), and espresso flights. Worth the drive south from Columbus.</p>
+          <div class="shop-meta">
+            <span>📍 123 N Broad St, Lancaster, OH 43130</span>
+            <span>🕐 Mon–Thu 6am–6pm · Fri 6am–7pm · Sat 7am–7pm · Sun 8am–4pm</span>
+            <span>📞 (740) 963-9522</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Espresso Flights</span>
+            <span class="tag">Underground Events</span>
+            <span class="tag">Destination Café</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SWEET BETTY LANCASTER -->
+      <div class="shop-card" data-neighborhood="lancaster">
+        <div class="shop-card-header">
+          <div class="shop-name">Sweet Betty Coffee Shoppe</div>
+          <div class="shop-rating">★ 4.8</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Lancaster, OH</div>
+          <p class="shop-desc">A downtown Lancaster hidden gem with a fiercely loyal following. Locally sourced single-origin beans, creative signature drinks like the Bees Knees, local vendor goods for sale, and staff who treat every customer like family. Tiny and charming.</p>
+          <div class="shop-meta">
+            <span>📍 117 S Columbus St, Lancaster, OH 43130</span>
+            <span>🕐 Tue–Fri 6am–3pm · Sat 8am–2pm</span>
+            <span>📞 (740) 215-0295</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Local Sourcing</span>
+            <span class="tag">Hidden Gem</span>
+            <span class="tag">Bees Knees Latte</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- COFFEE VAULT GALENA -->
+      <div class="shop-card" data-neighborhood="galena">
+        <div class="shop-card-header">
+          <div class="shop-name">The Coffee Vault</div>
+          <div class="shop-rating">★ 4.8</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Galena, OH</div>
+          <p class="shop-desc">One of the most unique café experiences in central Ohio — a converted 1800s bank with a spiral staircase down to a cozy basement, a stone fireplace, and the original vault still intact. Charming patio across from the village square, plus excellent breakfast sandwiches and creative specialty drinks.</p>
+          <div class="shop-meta">
+            <span>📍 W Columbus St #9, Galena, OH 43021</span>
+            <span>🕐 Mon–Fri 6:30am–2pm · Sat 8am–3pm · Sun Closed</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Converted Bank</span>
+            <span class="tag">Original Vault</span>
+            <span class="tag">Fireplace</span>
+            <span class="tag">Village Square</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ETHOS & CO -->
+      <div class="shop-card" data-neighborhood="westerville">
+        <div class="shop-card-header">
+          <div class="shop-name">Ethos & Co. Cafe</div>
+          <div class="shop-rating">★ 4.9</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">North Westerville</div>
+          <p class="shop-desc">A nonprofit café with soaring ceilings, abundant natural light, and a spacious open floor plan that works equally well for business meetings or slow solo mornings. Genuinely friendly staff, solid espresso, and one of the best-rated cafés in the entire Greater Columbus region.</p>
+          <div class="shop-meta">
+            <span>📍 6576 Africa Rd, Westerville, OH 43082</span>
+            <span>🕐 Mon–Fri 7am–3pm · Sat 8am–12pm · Sun Closed</span>
+            <span>📞 (614) 202-6432</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Nonprofit</span>
+            <span class="tag">Soaring Ceilings</span>
+            <span class="tag">Natural Light</span>
+            <span class="tag">4.9 Stars</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+<section id="nature" class="nature-section">
+  <div class="container">
+    <p class="section-label">☕ + 🌿 Best of Both Worlds</p>
+    <h2 class="section-title">Coffee & Nature / Walks</h2>
+    <p class="section-subtitle">These shops sit adjacent to, inside, or within easy walking distance of Columbus's best parks, trails, and green spaces. Grab a cup, then hit the trail.</p>
+
+    <div class="shop-grid">
+
+      <div class="nature-card shop-card">
+        <div class="shop-card-header">
+          <div class="shop-name">Bada Bean Bada Booze — Quarry Trails</div>
+          <div class="shop-rating">★ 4.7</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Quarry Trails Metro Park</div>
+          <p class="shop-desc">The most uniquely situated coffee shop in Columbus — literally inside Quarry Trails Metro Park. Deck and patio overlooking the lake, with hiking trails, mountain biking, rock climbing, a via ferrata, and a 25-foot waterfall just steps away.</p>
+          <div class="shop-meta">
+            <span>📍 2157 Quarry Trails Dr, Columbus, OH 43228</span>
+            <span>🕐 Daily 7am–10pm (bar opens 4pm)</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Inside Metro Park</span>
+            <span class="tag">Lake Views</span>
+            <span class="tag">Coffee by Day / Bar by Night</span>
+          </div>
+          <div class="park-callout">🏞️ <strong>Quarry Trails Metro Park</strong> — hiking, mountain biking, rock climbing, via ferrata, kayaking, 25-ft waterfall. One of Columbus's newest and most dramatic parks.</div>
+        </div>
+      </div>
+
+      <div class="nature-card shop-card">
+        <div class="shop-card-header">
+          <div class="shop-name">Pistacia Vera</div>
+          <div class="shop-rating">★ 4.7</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">German Village → Schiller Park</div>
+          <p class="shop-desc">Columbus's finest patisserie sits just a short stroll from Schiller Park, German Village's beloved 23-acre green space with a formal garden, lake, amphitheater, and one of Columbus's most scenic morning walks.</p>
+          <div class="shop-meta">
+            <span>📍 541 S 3rd St, Columbus, OH 43215</span>
+            <span>🕐 Daily 7am–7pm</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Near Schiller Park</span>
+            <span class="tag">Macarons & Tarts</span>
+            <span class="tag">Sidewalk Seating</span>
+          </div>
+          <div class="park-callout">🌳 <strong>Schiller Park</strong> (4-min walk) — 23-acre historic park with lake, Shakespeare amphitheater, formal gardens, and paved walking paths through one of Columbus's most beautiful neighborhoods.</div>
+        </div>
+      </div>
+
+      <div class="nature-card shop-card">
+        <div class="shop-card-header">
+          <div class="shop-name">Fox in the Snow — German Village</div>
+          <div class="shop-rating">★ 4.6</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">German Village → Merion Village Trails</div>
+          <p class="shop-desc">Fuel up on Fox in the Snow's legendary pastries before heading to Schiller Park, the Olentangy Trail gateway, or Hayden Falls — all reachable within the neighborhood's walkable, tree-lined brick streets.</p>
+          <div class="shop-meta">
+            <span>📍 210 Thurman Ave, Columbus, OH 43206</span>
+            <span>🕐 Mon–Fri 7am–3pm · Sat–Sun 8am–3pm</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">German Village Walks</span>
+            <span class="tag">Pastry Fuel-Up</span>
+            <span class="tag">Near Schiller Park</span>
+          </div>
+          <div class="park-callout">🌳 <strong>Schiller Park</strong> (6-min walk) + the whole of <strong>German Village</strong> — Columbus's most walkable historic neighborhood, with brick-paved streets, 19th-century architecture, and the Scioto greenway nearby.</div>
+        </div>
+      </div>
+
+      <div class="nature-card shop-card">
+        <div class="shop-card-header">
+          <div class="shop-name">Mission Coffee Co.</div>
+          <div class="shop-rating">★ 4.6</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Short North → Goodale Park</div>
+          <p class="shop-desc">Just a few blocks from Goodale Park, Columbus's oldest park and beloved Short North green space. Mission's open garage door and outdoor seating make it perfect for warm-weather mornings before a park stroll.</p>
+          <div class="shop-meta">
+            <span>📍 11 Price Ave, Columbus, OH 43201</span>
+            <span>🕐 Mon–Fri 7am–6pm · Sat–Sun 8am–6pm</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Near Goodale Park</span>
+            <span class="tag">Patio / Garage Door</span>
+            <span class="tag">Short North Walkable</span>
+          </div>
+          <div class="park-callout">🌳 <strong>Goodale Park</strong> (5-min walk) — Columbus's oldest park (1851), featuring a lake, fountain, mature trees, and one of the city's most charming picnic spots. Hosts Comfest each summer.</div>
+        </div>
+      </div>
+
+      <div class="nature-card shop-card">
+        <div class="shop-card-header">
+          <div class="shop-name">Village Coffee of Sunbury</div>
+          <div class="shop-rating">★ 4.8</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Sunbury → Big Walnut Creek</div>
+          <p class="shop-desc">A historic-building gem in downtown Sunbury with a fireplace and window seats overlooking the street. Just minutes from the Big Walnut Creek trail system and peaceful rural greenway — ideal for a country drive + coffee combo.</p>
+          <div class="shop-meta">
+            <span>📍 25 E Granville St, Sunbury, OH 43074</span>
+            <span>🕐 Mon–Wed & Fri 6:30am–4pm · Thu 6:30am–8pm · Sat 7:30am–4pm</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Fireplace Seating</span>
+            <span class="tag">Small Town Charm</span>
+            <span class="tag">Near Big Walnut Trail</span>
+          </div>
+          <div class="park-callout">🌿 <strong>Big Walnut Creek Greenway</strong> — peaceful rural trail along Big Walnut Creek, popular with hikers and birders. Sunbury's downtown location makes it a perfect start or end to a nature outing.</div>
+        </div>
+      </div>
+
+      <div class="nature-card shop-card">
+        <div class="shop-card-header">
+          <div class="shop-name">Coastline Coffee</div>
+          <div class="shop-rating">★ 4.7</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Delaware → Alum Creek State Park</div>
+          <p class="shop-desc">This surf-themed café off Dublin Rd is ideally positioned for a coffee stop before or after Alum Creek State Park, one of Ohio's most popular reservoirs with miles of hiking, mountain biking, and beachside trails.</p>
+          <div class="shop-meta">
+            <span>📍 7775 Dublin Rd, Delaware, OH 43015</span>
+            <span>🕐 Mon–Sat 7am–5pm · Sun 8am–5pm</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Near Alum Creek</span>
+            <span class="tag">Surfer Vibe</span>
+            <span class="tag">Great WiFi</span>
+          </div>
+          <div class="park-callout">🏞️ <strong>Alum Creek State Park</strong> (10-min drive) — Ohio's largest inland beach, with 4,630 acres of trails, mountain biking, fishing, kayaking, and a beloved dog park. A perfect pairing.</div>
+        </div>
+      </div>
+
+      <div class="nature-card shop-card">
+        <div class="shop-card-header">
+          <div class="shop-name">Florin Coffee</div>
+          <div class="shop-rating">★ 4.9</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">North Linden → Blendon Woods</div>
+          <p class="shop-desc">Columbus's highest-rated café makes a perfect launch point for a morning at Blendon Woods Metro Park, just a few miles north — with its Canopy Walk, Thoreau Lake, Story Trail, and serene wetland boardwalk.</p>
+          <div class="shop-meta">
+            <span>📍 874 Oakland Park Ave, Columbus, OH 43224</span>
+            <span>🕐 Mon–Fri 7am–3pm · Sat–Sun 8am–3pm</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Near Blendon Woods</span>
+            <span class="tag">Highest-Rated in Columbus</span>
+            <span class="tag">Retail Beans</span>
+          </div>
+          <div class="park-callout">🌲 <strong>Blendon Woods Metro Park</strong> (5-min drive) — features the Canopy Walk, Thoreau Lake bird blind, Story Trail, and one of central Ohio's best nature centers. Ideal for a post-coffee morning walk.</div>
+        </div>
+      </div>
+
+      <div class="nature-card shop-card">
+        <div class="shop-card-header">
+          <div class="shop-name">Crimson Cup — Clintonville</div>
+          <div class="shop-rating">★ 4.5</div>
+        </div>
+        <div class="shop-card-body">
+          <div class="shop-neighborhood">Clintonville → Olentangy Trail</div>
+          <p class="shop-desc">Clintonville's Crimson Cup sits minutes from the Olentangy Trail, one of Columbus's premier greenway paths running along the river. Cyclists, joggers, and trail walkers frequently stop here before or after a ride or run.</p>
+          <div class="shop-meta">
+            <span>📍 4541 N High St, Columbus, OH 43214</span>
+            <span>🕐 Mon–Sat 6am–7pm · Sun 7am–7pm</span>
+          </div>
+          <div class="shop-tags">
+            <span class="tag">Near Olentangy Trail</span>
+            <span class="tag">Cyclist Friendly</span>
+            <span class="tag">Drive-Through</span>
+          </div>
+          <div class="park-callout">🚴 <strong>Olentangy Trail</strong> (5-min walk) — a beloved multi-use paved trail running along the Olentangy River through Clintonville, Worthington, and beyond. Perfect for a pre-coffee ride.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+<section id="submit">
+  <div class="container">
+    <p class="section-label">Know a Hidden Gem?</p>
+    <h2 class="section-title">Submit a Coffee Shop</h2>
+    <p class="section-subtitle">Help us grow the guide. If there's a Columbus coffee shop we're missing, tell us about it and we'll check it out.</p>
+
+    <div class="form-grid" id="submitForm">
+      <div class="form-group">
+        <label for="shopName">Shop Name *</label>
+        <input type="text" id="shopName" placeholder="e.g. Parable Cafe" />
+      </div>
+      <div class="form-group">
+        <label for="neighborhood">Neighborhood</label>
+        <select id="neighborhood">
+          <option value="" disabled selected>Select a neighborhood / suburb</option>
+          <optgroup label="Columbus City">
+            <option>Short North</option>
+            <option>German Village</option>
+            <option>Clintonville</option>
+            <option>Downtown</option>
+            <option>Franklinton</option>
+            <option>Grandview Heights</option>
+            <option>Victorian Village</option>
+            <option>Italian Village</option>
+            <option>Bexley</option>
+            <option>Linden</option>
+          </optgroup>
+          <optgroup label="Suburbs & Outer Columbus">
+            <option>Westerville</option>
+            <option>Dublin</option>
+            <option>Gahanna</option>
+            <option>Hilliard</option>
+            <option>Grove City</option>
+            <option>Pickerington</option>
+            <option>New Albany</option>
+            <option>Reynoldsburg</option>
+            <option>Worthington</option>
+            <option>Upper Arlington</option>
+            <option>Bexley</option>
+            <option>Delaware</option>
+            <option>Sunbury</option>
+            <option>Galena</option>
+            <option>Lewis Center</option>
+            <option>Powell</option>
+            <option>New Albany</option>
+            <option>Marysville</option>
+            <option>Lancaster</option>
+            <option>Pataskala</option>
+            <option>Other</option>
+          </optgroup>
+        </select>
+      </div>
+      <div class="form-group full">
+        <label for="address">Address</label>
+        <input type="text" id="address" placeholder="123 High St, Columbus, OH 43215" />
+      </div>
+      <div class="form-group full">
+        <label for="why">Why should we feature it? *</label>
+        <textarea id="why" placeholder="Tell us what makes this spot special — the vibe, a must-try drink, anything that stands out..."></textarea>
+      </div>
+      <div class="form-group">
+        <label for="yourName">Your Name</label>
+        <input type="text" id="yourName" placeholder="Optional" />
+      </div>
+      <div class="form-group">
+        <label for="email">Your Email</label>
+        <input type="email" id="email" placeholder="Optional — for follow-up" />
+      </div>
+      <div class="form-group full form-submit">
+        <button class="btn btn-primary" onclick="submitForm()" style="width: auto; padding: 0.9rem 2.5rem;">Submit Shop →</button>
+      </div>
+    </div>
+    <div class="success-msg" id="successMsg">
+      ☕ Thanks for the tip! We'll check it out and add it to the guide soon.
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Greater Columbus Coffee Guide</div>
+  <p>A community-driven guide to the best independent coffee across Columbus, Ohio and the surrounding region.</p>
+  <p style="margin-top: 1.5rem; font-size: 0.72rem;">Built with love for Columbus ❤️</p>
+</footer>
+
+<script>
+  function filterShops(neighborhood, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    document.querySelectorAll('.shop-card').forEach(card => {
+      if (neighborhood === 'all' || card.dataset.neighborhood === neighborhood) {
+        card.style.display = 'block';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+
+  function submitForm() {
+    const name = document.getElementById('shopName').value.trim();
+    const why = document.getElementById('why').value.trim();
+    if (!name || !why) {
+      alert('Please fill in the shop name and tell us why it should be featured.');
+      return;
+    }
+    document.getElementById('submitForm').style.opacity = '0.4';
+    document.getElementById('submitForm').style.pointerEvents = 'none';
+    document.getElementById('successMsg').style.display = 'block';
+  }
+</script>
+
+</body>
+</html>
